@@ -18,16 +18,6 @@ class PreSendTest extends TestCase
         self::assertClassFinal(PreSend::class);
     }
 
-    public function testCouldBeConstructedWithExpectedArguments()
-    {
-        new PreSend(
-            'aCommandOrTopic',
-            new Message(),
-            $this->createProducerMock(),
-            $this->createDriverMock()
-        );
-    }
-
     public function testShouldAllowGetArgumentSetInConstructor()
     {
         $expectedCommandOrTopic = 'theCommandOrTopic';
@@ -61,7 +51,7 @@ class PreSendTest extends TestCase
             $this->createDriverMock()
         );
 
-        //guard
+        // guard
         $this->assertSame('aCommandOrTopic', $context->getTopic());
 
         $context->changeTopic('theChangedTopic');
@@ -78,7 +68,7 @@ class PreSendTest extends TestCase
             $this->createDriverMock()
         );
 
-        //guard
+        // guard
         $this->assertSame('aCommandOrTopic', $context->getCommand());
 
         $context->changeCommand('theChangedCommand');
@@ -95,7 +85,7 @@ class PreSendTest extends TestCase
             $this->createDriverMock()
         );
 
-        //guard
+        // guard
         $this->assertSame('aBody', $context->getMessage()->getBody());
         $this->assertNull($context->getMessage()->getContentType());
 

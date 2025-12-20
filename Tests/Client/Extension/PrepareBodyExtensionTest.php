@@ -22,22 +22,16 @@ class PrepareBodyExtensionTest extends TestCase
         $this->assertTrue($rc->implementsInterface(PreSendCommandExtensionInterface::class));
     }
 
-    public function testCouldConstructedWithoutAnyArguments()
-    {
-        new PrepareBodyExtension();
-    }
-
     /**
      * @dataProvider provideMessages
      *
-     * @param mixed      $body
      * @param mixed|null $contentType
      */
     public function testShouldSendStringUnchangedAndAddPlainTextContentTypeIfEmpty(
         $body,
         $contentType,
         string $expectedBody,
-        string $expectedContentType
+        string $expectedContentType,
     ) {
         $message = new Message($body);
         $message->setContentType($contentType);

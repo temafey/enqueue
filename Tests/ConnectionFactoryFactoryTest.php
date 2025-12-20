@@ -37,11 +37,9 @@ class ConnectionFactoryFactoryTest extends TestCase
         $this->assertTrue($rc->isFinal());
     }
 
-    public function testCouldBeConstructedWithoutAnyArguments()
-    {
-        new ConnectionFactoryFactory();
-    }
-
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testShouldAcceptStringDSN()
     {
         $factory = new ConnectionFactoryFactory();
@@ -49,6 +47,9 @@ class ConnectionFactoryFactoryTest extends TestCase
         $factory->create('null:');
     }
 
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testShouldAcceptArrayWithDsnKey()
     {
         $factory = new ConnectionFactoryFactory();
@@ -157,7 +158,7 @@ class ConnectionFactoryFactoryTest extends TestCase
         yield ['file:', FsConnectionFactory::class];
 
         // https://github.com/php-enqueue/enqueue-dev/issues/511
-//        yield ['gearman:', GearmanConnectionFactory::class];
+        //        yield ['gearman:', GearmanConnectionFactory::class];
 
         yield ['gps:', GpsConnectionFactory::class];
 

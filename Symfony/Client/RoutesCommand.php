@@ -17,8 +17,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand('enqueue:routes')]
 class RoutesCommand extends Command
 {
-    protected static $defaultName = 'enqueue:routes';
-
     /**
      * @var ContainerInterface
      */
@@ -45,7 +43,7 @@ class RoutesCommand extends Command
         $this->defaultClient = $defaultClient;
         $this->driverIdPatter = $driverIdPatter;
 
-        parent::__construct(static::$defaultName);
+        parent::__construct();
     }
 
     protected function configure(): void
@@ -65,7 +63,7 @@ class RoutesCommand extends Command
         try {
             $this->driver = $this->getDriver($input->getOption('client'));
         } catch (NotFoundExceptionInterface $e) {
-            throw new \LogicException(sprintf('Client "%s" is not supported.', $input->getOption('client')), null, $e);
+            throw new \LogicException(sprintf('Client "%s" is not supported.', $input->getOption('client')), previous: $e);
         }
 
         $routes = $this->driver->getRouteCollection()->all();

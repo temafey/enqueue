@@ -11,6 +11,7 @@ use Enqueue\Symfony\Client\RoutesCommand;
 use Enqueue\Test\ClassExtensionTrait;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -28,16 +29,22 @@ class RoutesCommandTest extends TestCase
         $this->assertClassNotFinal(RoutesCommand::class);
     }
 
-    public function testCouldBeConstructedWithConfigAndRouteCollectionAsArguments()
+    public function testShouldHaveAsCommandAttributeWithCommandName()
     {
-        new RoutesCommand($this->createMock(ContainerInterface::class), 'default');
-    }
+        $commandClass = RoutesCommand::class;
 
-    public function testShouldHaveCommandName()
-    {
-        $command = new RoutesCommand($this->createMock(ContainerInterface::class), 'default');
+        $reflectionClass = new \ReflectionClass($commandClass);
 
-        $this->assertEquals('enqueue:routes', $command->getName());
+        $attributes = $reflectionClass->getAttributes(AsCommand::class);
+
+        $this->assertNotEmpty($attributes, 'The command does not have the AsCommand attribute.');
+
+        // Get the first attribute instance (assuming there is only one AsCommand attribute)
+        $asCommandAttribute = $attributes[0];
+
+        // Verify the 'name' parameter value
+        $attributeInstance = $asCommandAttribute->newInstance();
+        $this->assertEquals('enqueue:routes', $attributeInstance->name, 'The command name is not set correctly in the AsCommand attribute.');
     }
 
     public function testShouldHaveCommandAliases()

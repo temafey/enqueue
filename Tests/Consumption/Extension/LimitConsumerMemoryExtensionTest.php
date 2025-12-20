@@ -17,11 +17,6 @@ use Psr\Log\NullLogger;
 
 class LimitConsumerMemoryExtensionTest extends TestCase
 {
-    public function testCouldBeConstructedWithRequiredArguments()
-    {
-        new LimitConsumerMemoryExtension(12345);
-    }
-
     public function testShouldThrowExceptionIfMemoryLimitIsNotInt()
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -129,7 +124,7 @@ class LimitConsumerMemoryExtensionTest extends TestCase
         $this->assertFalse($context->isExecutionInterrupted());
 
         // test
-        $extension = new LimitConsumerMemoryExtension(PHP_INT_MAX);
+        $extension = new LimitConsumerMemoryExtension(\PHP_INT_MAX);
         $extension->onPreConsume($context);
 
         $this->assertFalse($context->isExecutionInterrupted());
@@ -150,7 +145,7 @@ class LimitConsumerMemoryExtensionTest extends TestCase
         $this->assertFalse($postConsume->isExecutionInterrupted());
 
         // test
-        $extension = new LimitConsumerMemoryExtension(PHP_INT_MAX);
+        $extension = new LimitConsumerMemoryExtension(\PHP_INT_MAX);
         $extension->onPostConsume($postConsume);
 
         $this->assertFalse($postConsume->isExecutionInterrupted());
@@ -171,7 +166,7 @@ class LimitConsumerMemoryExtensionTest extends TestCase
         $this->assertFalse($postReceivedMessage->isExecutionInterrupted());
 
         // test
-        $extension = new LimitConsumerMemoryExtension(PHP_INT_MAX);
+        $extension = new LimitConsumerMemoryExtension(\PHP_INT_MAX);
         $extension->onPostMessageReceived($postReceivedMessage);
 
         $this->assertFalse($postReceivedMessage->isExecutionInterrupted());

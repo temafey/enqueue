@@ -8,6 +8,7 @@ use Enqueue\Symfony\Client\SetupBrokerCommand;
 use Enqueue\Test\ClassExtensionTrait;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -25,16 +26,22 @@ class SetupBrokerCommandTest extends TestCase
         $this->assertClassNotFinal(SetupBrokerCommand::class);
     }
 
-    public function testCouldBeConstructedWithContainerAsFirstArgument()
+    public function testShouldHaveAsCommandAttributeWithCommandName()
     {
-        new SetupBrokerCommand($this->createMock(ContainerInterface::class), 'default');
-    }
+        $commandClass = SetupBrokerCommand::class;
 
-    public function testShouldHaveCommandName()
-    {
-        $command = new SetupBrokerCommand($this->createMock(ContainerInterface::class), 'default');
+        $reflectionClass = new \ReflectionClass($commandClass);
 
-        $this->assertEquals('enqueue:setup-broker', $command->getName());
+        $attributes = $reflectionClass->getAttributes(AsCommand::class);
+
+        $this->assertNotEmpty($attributes, 'The command does not have the AsCommand attribute.');
+
+        // Get the first attribute instance (assuming there is only one AsCommand attribute)
+        $asCommandAttribute = $attributes[0];
+
+        // Verify the 'name' parameter value
+        $attributeInstance = $asCommandAttribute->newInstance();
+        $this->assertEquals('enqueue:setup-broker', $attributeInstance->name, 'The command name is not set correctly in the AsCommand attribute.');
     }
 
     public function testShouldHaveCommandAliases()

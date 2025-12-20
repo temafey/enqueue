@@ -10,9 +10,6 @@ use Symfony\Component\Console\Input\InputOption;
 
 trait SetupBrokerExtensionCommandTrait
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function configureSetupBrokerExtension()
     {
         $this
@@ -21,10 +18,7 @@ trait SetupBrokerExtensionCommandTrait
     }
 
     /**
-     * @param InputInterface  $input
-     * @param DriverInterface $driver
-     *
-     * @return ExtensionInterface
+     * @return ExtensionInterface|null
      */
     protected function getSetupBrokerExtension(InputInterface $input, DriverInterface $driver)
     {

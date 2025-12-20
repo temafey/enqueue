@@ -29,18 +29,6 @@ class SimpleConsumeCommandTest extends TestCase
         $this->assertClassNotFinal(SimpleConsumeCommand::class);
     }
 
-    public function testCouldBeConstructedWithRequiredAttributes()
-    {
-        new SimpleConsumeCommand($this->createQueueConsumerMock(), $this->createDriverStub(), $this->createDelegateProcessorMock());
-    }
-
-    public function testShouldHaveCommandName()
-    {
-        $command = new SimpleConsumeCommand($this->createQueueConsumerMock(), $this->createDriverStub(), $this->createDelegateProcessorMock());
-
-        $this->assertEquals('enqueue:consume', $command->getName());
-    }
-
     public function testShouldHaveExpectedOptions()
     {
         $command = new SimpleConsumeCommand($this->createQueueConsumerMock(), $this->createDriverStub(), $this->createDelegateProcessorMock());

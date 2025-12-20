@@ -16,8 +16,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand('enqueue:produce')]
 class ProduceCommand extends Command
 {
-    protected static $defaultName = 'enqueue:produce';
-
     /**
      * @var ContainerInterface
      */
@@ -39,7 +37,7 @@ class ProduceCommand extends Command
         $this->defaultClient = $defaultClient;
         $this->producerIdPattern = $producerIdPattern;
 
-        parent::__construct(static::$defaultName);
+        parent::__construct();
     }
 
     protected function configure(): void
@@ -69,7 +67,7 @@ class ProduceCommand extends Command
         try {
             $producer = $this->getProducer($client);
         } catch (NotFoundExceptionInterface $e) {
-            throw new \LogicException(sprintf('Client "%s" is not supported.', $client), null, $e);
+            throw new \LogicException(sprintf('Client "%s" is not supported.', $client), previous: $e);
         }
 
         if ($topic) {

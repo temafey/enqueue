@@ -39,21 +39,6 @@ class QueueConsumerTest extends TestCase
 {
     use ReadAttributeTrait;
 
-    public function testCouldBeConstructedWithAllArguments()
-    {
-        new QueueConsumer($this->createContextStub(), null, [], null, 0);
-    }
-
-    public function testCouldBeConstructedWithContextOnly()
-    {
-        new QueueConsumer($this->createContextStub());
-    }
-
-    public function testCouldBeConstructedWithContextAndSingleExtension()
-    {
-        new QueueConsumer($this->createContextStub(), $this->createExtension());
-    }
-
     public function testShouldSetEmptyArrayToBoundProcessorsPropertyInConstructor()
     {
         $consumer = new QueueConsumer($this->createContextStub(), null, [], null, 0);
@@ -1470,7 +1455,7 @@ class QueueConsumerTest extends TestCase
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|InteropContext
      */
-    private function createContextStub(Consumer $consumer = null): InteropContext
+    private function createContextStub(?Consumer $consumer = null): InteropContext
     {
         $context = $this->createContextWithoutSubscriptionConsumerMock();
         $context

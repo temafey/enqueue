@@ -20,8 +20,6 @@ class ConsumeCommand extends Command
     use LimitsExtensionsCommandTrait;
     use QueueConsumerOptionsCommandTrait;
 
-    protected static $defaultName = 'enqueue:transport:consume';
-
     /**
      * @var ContainerInterface
      */
@@ -43,7 +41,7 @@ class ConsumeCommand extends Command
         $this->defaultTransport = $defaultTransport;
         $this->queueConsumerIdPattern = $queueConsumerIdPattern;
 
-        parent::__construct(static::$defaultName);
+        parent::__construct();
     }
 
     protected function configure(): void
@@ -67,7 +65,7 @@ class ConsumeCommand extends Command
             // QueueConsumer must be pre configured outside of the command!
             $consumer = $this->getQueueConsumer($transport);
         } catch (NotFoundExceptionInterface $e) {
-            throw new \LogicException(sprintf('Transport "%s" is not supported.', $transport), null, $e);
+            throw new \LogicException(sprintf('Transport "%s" is not supported.', $transport), previous: $e);
         }
 
         $this->setQueueConsumerOptions($consumer, $input);

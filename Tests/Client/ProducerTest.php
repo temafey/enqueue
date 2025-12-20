@@ -3,7 +3,6 @@
 namespace Enqueue\Tests\Client;
 
 use Enqueue\Client\DriverInterface;
-use Enqueue\Client\ExtensionInterface;
 use Enqueue\Client\Producer;
 use Enqueue\Client\ProducerInterface;
 use Enqueue\Rpc\RpcFactory;
@@ -22,20 +21,6 @@ class ProducerTest extends TestCase
     public function testShouldBeFinal()
     {
         self::assertClassFinal(Producer::class);
-    }
-
-    public function testCouldBeConstructedWithRequiredArguments()
-    {
-        new Producer($this->createDriverMock(), $this->createRpcFactoryMock());
-    }
-
-    public function testCouldBeConstructedWithOptionalArguments()
-    {
-        new Producer(
-            $this->createDriverMock(),
-            $this->createRpcFactoryMock(),
-            $this->createMock(ExtensionInterface::class)
-        );
     }
 
     /**
